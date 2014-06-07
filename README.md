@@ -1,7 +1,7 @@
 # Browser MIDI
 ## A Javascript / Python browser MIDI player
 
-This is a hacky way to play MIDI files in a browser. First list available MIDI files on a server, then make an AJAX call to a Python CGI script that converts the MIDI to OGG, then feed the AJAX call's output to a HTML5 <audio> object.
+This is a hacky way to play MIDI files in a browser. First list available MIDI files on a server, then make an AJAX call to a Python CGI script that converts the MIDI to OGG, then feed the AJAX call's output to a HTML5 audio object.
 
 ## License
 
