@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="StyleSheet" href="web.css" type="text/css" media="screen">
+<script src="jquery-1.11.1.min.js"></script>
+<title>MIDI</title>
+</head>
+<body>
+
+<script>
+var getfiles = function(dir) {
+    $.get(dir, function(data) {
+        var $s = $("#midilist ul");
+        var links = $(data).find("a");
+        links.each(function() {
+            var href = $(this).attr("href");
+            if (/\.(mid)$/.test(href)) {
+                $s.append("<li>" + $(this).text() + "</li>");
+            }
+        });
+    });
+};
+</script>
+
+<script>
+$(document).ready(function() {
+    getfiles("midis");
+
+    $("#listing").click(function(event) {
+        console.log($(this).text());
+        var midiname = $(this).text();
+        var path = $(this).val();
+
+        $.ajax({
+            url: "cgi-bin/midi_to_ogg.py",
+            type: "POST",
+            data: {"path": midiname},
+            success: function(response) {
+                //$("#player").html('<img src="data:image/png;base64,' + response + '" />');
+                var audio = document.getElementById("oggplayer");
+                audio.src = "data:audio/ogg;base64," + response;
+                audio.type = "type/ogg";
+                //$("#player").append(response);
+            }
+        });
+    });
+});
+</script>
+
+<div id="content">
+    <div id="midilist">
+        <ul id="listing"></ul>
+    </div>
+    <div id="player">
+        <audio id="oggplayer" controls autoplay loop>
+        <p>Your browser does not support the audio element </p>
+        </audio>
+
+    </div>
+</div>
+</body>
+</html>
+

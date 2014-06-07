@@ -1,0 +1,17 @@
+body {
+    font-family: "Tahoma";
+}
+table {
+    border-collapse: collapse;
+}
+th, td {
+    padding: 4px;
+    font-family: "Tahoma";
+}
+th {
+    background-color: #369;
+    color: #eee;
+    text-align: center;
+    font-weight: bold;
+}
+
