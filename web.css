@@ -1,17 +1,77 @@
 body {
     font-family: "Tahoma";
 }
-table {
-    border-collapse: collapse;
+
+#content {
+    background: white;
+    float: left;
+    height: 400px;
+    padding: 5px 5px 5px 5px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
 }
-th, td {
-    padding: 4px;
-    font-family: "Tahoma";
+
+#midilist {
+    float: left;
+    background: grey;
+    padding: 0px 30px 0px 0px;
+    text-align: left;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+
 }
-th {
-    background-color: #369;
-    color: #eee;
+
+#player {
+    float: left;
+    width: 400px;
+    height: 250px;
+    margin-top: 5px;
+    padding-top: 10px;
+    margin: 0 auto;
+    background: grey;
     text-align: center;
-    font-weight: bold;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
 }
+
+#loading {
+    float: left;
+}
+
+li {
+    list-style-type: none;
+    text-align: left;
+    margin: 0 0 0.25em 0;
+}
+
+li a, li a:visited {
+    display: block;
+    width: 12em;
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 0.8em;
+    text-align: center;
+    text-decoration: none;
+    background: black;
+    color: white;
+    padding: 0.25em;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+
+li a:hover {
+    background: white;
+    color: black;
+}
+
 

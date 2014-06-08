@@ -16,7 +16,7 @@ var getfiles = function(dir) {
         links.each(function() {
             var href = $(this).attr("href");
             if (/\.(mid)$/.test(href)) {
-                $s.append("<li class=\"miditem\">" + $(this).text() + "</li>");
+                $s.append("<li class=\"miditem\"><a href=\"#\">" + $(this).text() + "</a></li>");
             }
         });
     });
@@ -26,22 +26,27 @@ var getfiles = function(dir) {
 <script>
 $(document).ready(function() {
     getfiles("midis");
+    $("#loading").hide();
+
+    var activemidi = null;
 
     $("#listing").on("click", "li", function(event) {
         console.log($(this).text());
         var midiname = $(this).text();
         var path = $(this).val();
 
+        $("#loading").show();
+
         $.ajax({
             url: "cgi-bin/midi_to_ogg.py",
             type: "POST",
             timeout: 8000,
             data: {"path": midiname},
+            async: false,
             success: function(response) {
                 var audio = document.getElementById("oggplayer");
                 audio.src = "data:audio/ogg;base64," + response;
                 audio.type = "type/ogg";
-                //$("#player").append(response);
             },
             error: function(x, errmsg, err) {
                 $("#player").append("Error code: " + x.status);
@@ -49,6 +54,8 @@ $(document).ready(function() {
                 $("#player").append(err);
             }
         });
+
+        $("#loading").hide();
     });
 });
 </script>
@@ -58,10 +65,13 @@ $(document).ready(function() {
         <ul id="listing"></ul>
     </div>
     <div id="player">
-        <audio id="oggplayer" controls autoplay loop>
+        <audio id="oggplayer" controls autoplay>
         <p>Your browser does not support the audio element </p>
         </audio>
 
+        <div id="loading">
+        <p>Now loading!</p>
+        </div>
     </div>
 </div>
 </body>
