@@ -76,6 +76,10 @@ sudo chmod +x cgi-bin/*
 
 * Go to coolserver.com/browsermid
 
+## Collaborators
+
+Ranti helped me in learning this stuff. He can take a cookie for free.
+
 ## License
 
 The MIT License (MIT)
