@@ -16,7 +16,7 @@ var getfiles = function(dir) {
         links.each(function() {
             var href = $(this).attr("href");
             if (/\.(mid)$/.test(href)) {
-                $s.append("<li>" + $(this).text() + "</li>");
+                $s.append("<li class=\"miditem\">" + $(this).text() + "</li>");
             }
         });
     });
@@ -27,7 +27,14 @@ var getfiles = function(dir) {
 $(document).ready(function() {
     getfiles("midis");
 
-    $("#listing").click(function(event) {
+    /*
+    $("#listing").on("click", "li", function(event) {
+        console.log( 'clicked', $( this ).text() );
+        console.log(this.id)
+    });
+    */
+
+    $("#listing").on("click", "li", function(event) {
         console.log($(this).text());
         var midiname = $(this).text();
         var path = $(this).val();
@@ -37,7 +44,6 @@ $(document).ready(function() {
             type: "POST",
             data: {"path": midiname},
             success: function(response) {
-                //$("#player").html('<img src="data:image/png;base64,' + response + '" />');
                 var audio = document.getElementById("oggplayer");
                 audio.src = "data:audio/ogg;base64," + response;
                 audio.type = "type/ogg";

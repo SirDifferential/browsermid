@@ -31,7 +31,7 @@ def convert(original_path, converted_path):
     wav_path = converted_path.replace(".ogg", ".wav")
 
     try:
-        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path], close_fds=True, stdin=None, stdout=None, stderr=None, shell=False)
+        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path], close_fds=True, shell=False)
         p.wait()
         p2 = subprocess.Popen([compress_command, wav_path], close_fds=True, stdin=None, stdout=None, stderr=None, shell=False)
         p2.wait()
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     form = cgi.FieldStorage()
 
     try:
-        path = "marblegarden.mid"
+        path = form["path"].value
     except Exception as e:
         print(e)
         printHeader()
@@ -81,7 +81,12 @@ if __name__ == "__main__":
 
     # Time to convert!
     convert(fullpath, converted_path)
-    
+   
+    printHeader()
+    print " converted"
+    finish()
+    sys.exit()
+ 
     try:
         encoded = urllib.quote(open(converted_path, "rb").read().encode("base64"))
         printHeader()
