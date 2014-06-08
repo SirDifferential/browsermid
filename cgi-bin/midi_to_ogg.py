@@ -15,8 +15,14 @@ compress_command = "/usr/bin/oggenc"
 log_file = midi_dir + "log.txt"
 write_log = True
 
+f = None
+
 def printHeader():
-    print "Content-Type: text/html\n"
+    print "Content-Type: audio/ogg\n"
+    sys.stdout.flush()
+
+def printErrorHeader():
+    print "Content-Type: text/plain\n"
     sys.stdout.flush()
 
 def finish():
@@ -26,6 +32,30 @@ def finish():
 def clean_input(path):
     return shlex.split(path)
 
+# Prints the actual response to the ajax call
+def return_finished_ogg(ogg_path, pre_encoded):
+    try:
+        encoded = urllib.quote(open(ogg_path, "rb").read().encode("base64"))
+        printHeader()
+        sys.stdout.write(encoded)
+        finish()
+        if (write_log):
+            if (pre_encoded == True):
+                f.write("Returned pre-encoded ogg!\n")
+            else:
+                f.write("Returned newly encoded ogg\n")
+            f.close()
+        sys.exit()
+    except Exception as e:
+        if (write_log):
+            if (pre_encoded):
+                f.write("Error returning pre-recorded ogg:\n")
+            else:
+                f.write("Error returning newly encoded ogg:\n")
+            f.write(e)
+            f.close()
+        sys.exit()
+
 # Takes a path ending in .mid
 # Converts that file to .ogg
 def convert(original_path, converted_path):
@@ -33,17 +63,26 @@ def convert(original_path, converted_path):
     wav_path = converted_path.replace(".ogg", ".wav")
 
     try:
-        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path])
+        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path], close_fds=True, shell=False)
         p.wait()
-        p2 = subprocess.Popen([compress_command, wav_path], close_fds=True, stdin=None, stdout=None, stderr=None, shell=False)
+        if (write_log):
+            f.write("conversion returned successfully\n")
+        p2 = subprocess.Popen([compress_command, wav_path], close_fds=False, stdin=None, stdout=None, stderr=None, shell=False)
         p2.wait()
+        if (write_log):
+            f.write("Compression returned successfully\n")
         os.remove(wav_path)
+        if (write_log):
+            f.write("Wav deletion returned successfully\n")
     except Exception as e:
-        print(e)
+        if (write_log):
+            f.write("Error in converting file:\n")
+            f.write(e)
+            f.close()
+        sys.exit()
 
 if __name__ == "__main__":
-    f = None
-
+    
     if (write_log):
         if (os.path.isfile(log_file) == True):
             os.remove(log_file)
@@ -119,21 +158,7 @@ if __name__ == "__main__":
     try:
         # If the ogg is already converted
         if (os.path.isfile(converted_path) == True):
-            try:
-                encoded = urllib.quote(open(converted_path, "rb").read().encode("base64"))
-                printHeader()
-                print(encoded)
-                finish()
-                if (write_log):
-                    f.write("Returned pre-encoded ogg!\n")
-                    f.close()
-                sys.exit()
-            except Exception as e:
-                if (write_log):
-                    f.write("Error returning pre-recorded ogg:\n")
-                    f.write(e)
-                    f.close()
-                sys.exit()
+            return_finished_ogg(converted_path, True)
     except Exception as e:
         if (write_log):
             f.write("Error calling os.path.isfile()\n")
@@ -154,22 +179,10 @@ if __name__ == "__main__":
    
     try:
         if (os.path.isfile(converted_path) == True):
-            encoded = urllib.quote(open(converted_path, "rb").read().encode("base64"))
-            printHeader()
-            print(encoded)
-            finish()
-            if (write_log):
-                f.write("Returned newly converted ogg!\n")
-                f.close()
-        else:
-            if (write_log):
-                f.write("Newly converted file does not exist: " + converted_path + "\n")
-                f.close()
-                sys.exit()
+            return_finished_ogg(converted_path, False)
     except Exception as e:
         if (write_log):
             f.write("Error returning newly converted ogg!\n")
             f.write(e)
             f.close()
-    sys.exit()
 

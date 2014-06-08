@@ -27,13 +27,6 @@ var getfiles = function(dir) {
 $(document).ready(function() {
     getfiles("midis");
 
-    /*
-    $("#listing").on("click", "li", function(event) {
-        console.log( 'clicked', $( this ).text() );
-        console.log(this.id)
-    });
-    */
-
     $("#listing").on("click", "li", function(event) {
         console.log($(this).text());
         var midiname = $(this).text();
@@ -42,12 +35,18 @@ $(document).ready(function() {
         $.ajax({
             url: "cgi-bin/midi_to_ogg.py",
             type: "POST",
+            timeout: 8000,
             data: {"path": midiname},
             success: function(response) {
                 var audio = document.getElementById("oggplayer");
                 audio.src = "data:audio/ogg;base64," + response;
                 audio.type = "type/ogg";
                 //$("#player").append(response);
+            },
+            error: function(x, errmsg, err) {
+                $("#player").append("Error code: " + x.status);
+                $("#player").append(errmsg);
+                $("#player").append(err);
             }
         });
     });
