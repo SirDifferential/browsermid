@@ -52,7 +52,7 @@ def return_finished_ogg(ogg_path, pre_encoded):
                 f.write("Error returning pre-recorded ogg:\n")
             else:
                 f.write("Error returning newly encoded ogg:\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
 
@@ -63,11 +63,12 @@ def convert(original_path, converted_path):
     wav_path = converted_path.replace(".ogg", ".wav")
 
     try:
-        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path], close_fds=True, shell=False)
+        devnull = open(os.devnull, 'wb')
+        p = subprocess.Popen([convert_command, original_path, convert_flags[0], convert_flags[1], wav_path], close_fds=True, shell=False, stdout=devnull, stderr=devnull)
         p.wait()
         if (write_log):
             f.write("conversion returned successfully\n")
-        p2 = subprocess.Popen([compress_command, wav_path], close_fds=False, stdin=None, stdout=None, stderr=None, shell=False)
+        p2 = subprocess.Popen([compress_command, wav_path], close_fds=False, stdout=devnull, stderr=devnull, shell=False)
         p2.wait()
         if (write_log):
             f.write("Compression returned successfully\n")
@@ -77,12 +78,12 @@ def convert(original_path, converted_path):
     except Exception as e:
         if (write_log):
             f.write("Error in converting file:\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
 
 if __name__ == "__main__":
-    
+
     if (write_log):
         if (os.path.isfile(log_file) == True):
             os.remove(log_file)
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Error at running cgitb.enable()\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
 
@@ -106,7 +107,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Exception opening fieldstorage:\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
 
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Exception getting path: " + path + "\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
  
@@ -129,7 +130,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Error cleaning input: " + path + "\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
 
@@ -152,7 +153,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Exception at creating converted filepath:\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
  
@@ -174,7 +175,7 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Error converting file:\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
         sys.exit()
    
@@ -189,6 +190,6 @@ if __name__ == "__main__":
     except Exception as e:
         if (write_log):
             f.write("Error returning newly converted ogg!\n")
-            f.write(e)
+            f.write(str(e))
             f.close()
 
