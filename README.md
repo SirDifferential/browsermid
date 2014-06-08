@@ -7,6 +7,8 @@ This is a hacky way to play MIDI files in a browser. First list available MIDI f
 
 * Install Apache, configure as usual
 
+* Download the project code:
+
 ```
 cd /home/user
 git clone git@github.com:SirDifferential/browsermid.git
@@ -20,7 +22,7 @@ mkdir /home/user/public_html/browsermid/cgi-bin
 mkdir /home/user/public_html/browsermid/midis
 ``` 
 
-* Create VirtualHost configs, enable CGI
+* Create VirtualHost configs, enable CGI:
 
 ```
 <VirtualHost *:80>
