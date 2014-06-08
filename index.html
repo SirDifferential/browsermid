@@ -9,22 +9,22 @@
 <body>
 
 <script>
-var getfiles = function(dir) {
-    $.get(dir, function(data) {
-        var $s = $("#midilist ul");
-        var links = $(data).find("a");
-        links.each(function() {
-            var href = $(this).attr("href");
-            if (/\.(mid)$/.test(href)) {
-                $s.append("<li class=\"miditem\"><a href=\"#\">" + $(this).text() + "</a></li>");
-            }
-        });
-    });
-};
-</script>
-
-<script>
 $(document).ready(function() {
+
+    var getfiles = function(dir) {
+        $.get(dir, function(data) {
+            var $s = $("#midilist ul");
+            var links = $(data).find("a");
+            links.each(function() {
+                var href = $(this).attr("href");
+                if (/\.(mid)$/.test(href)) {
+                    $s.append("<li class=\"miditem\"><a href=\"#\">" + $(this).text() + "</a></li>");
+                }
+            });
+        });
+    };
+
+
     getfiles("midis");
     $("#loading").hide();
 
