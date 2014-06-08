@@ -108,6 +108,7 @@ if __name__ == "__main__":
             f.write("Exception opening fieldstorage:\n")
             f.write(e)
             f.close()
+        sys.exit()
 
     try:
         path = form["path"].value
@@ -180,6 +181,11 @@ if __name__ == "__main__":
     try:
         if (os.path.isfile(converted_path) == True):
             return_finished_ogg(converted_path, False)
+            f.close()
+        else:
+            if (write_log):
+                f.write("Newly converted ogg does not exist at " + converted_path + "\n")
+                f.close()
     except Exception as e:
         if (write_log):
             f.write("Error returning newly converted ogg!\n")
