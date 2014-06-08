@@ -62,7 +62,7 @@ sudo chmod +x cgi-bin/*
 
 ```
 cd /home/user/browsermid
-cp -r * ./ /home/user/public_html/browsermid/
+cp -r * /home/user/public_html/browsermid/
 ```
 
 * Place some music in the midis folder:
