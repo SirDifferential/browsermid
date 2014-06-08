@@ -11,6 +11,12 @@ I did this project because I was bored / wanted to learn something during the we
 
 * Install Apache, configure as usual
 
+* Install timidity
+
+```
+sudo apt-get install timidity
+```
+
 * Download the project code:
 
 ```
