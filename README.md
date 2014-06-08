@@ -3,6 +3,10 @@
 
 This is a hacky way to play MIDI files in a browser. First list available MIDI files on a server, then make an AJAX call to a Python CGI script that converts the MIDI to OGG, then feed the AJAX call's output to a HTML5 audio object.
 
+## Security
+
+I did this project because I was bored / wanted to learn something during the weekend. There are most likely some security holes even though I tried to write SOMEWHAT safe code. Use at your own risk as I'm not an expert in web development.
+
 ## Installation
 
 * Install Apache, configure as usual
