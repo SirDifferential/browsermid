@@ -3,6 +3,67 @@
 
 This is a hacky way to play MIDI files in a browser. First list available MIDI files on a server, then make an AJAX call to a Python CGI script that converts the MIDI to OGG, then feed the AJAX call's output to a HTML5 audio object.
 
+## Installation
+
+* Install Apache, configure as usual
+
+```
+cd /home/user
+git clone git@github.com:SirDifferential/browsermid.git
+```
+
+* Create directories for the site, ie:
+
+```
+mkdir /home/user/public_html/browsermid
+mkdir /home/user/public_html/browsermid/cgi-bin
+mkdir /home/user/public_html/browsermid/midis
+``` 
+
+* Create VirtualHost configs, enable CGI
+
+```
+<VirtualHost *:80>
+    ServerName CoolServer.com
+    DocumentRoot /home/user/public_html
+    <Directory />
+            Options FollowSymLinks +Indexes
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+    </Directory>
+
+    <Directory /home/user/public_html/browsermid/cgi-bin>
+            Options +ExecCGI
+            AddHandler cgi-script .cgi .py
+            AllowOverride None
+            Order allow,deny
+            Allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+
+* Place files in the website folder:
+
+```
+cd /home/user/browsermid
+cp -r * ./ /home/user/public_html/browsermid/
+```
+
+* Place some music in the midis folder:
+
+```
+cd /home/user/midi
+cp coolmusic.mid /home/user/public_html/browsermid/midis/
+```
+
+* Go to coolserver.com/browsermid
+
 ## License
 
 The MIT License (MIT)
