@@ -20,16 +20,6 @@ mkdir /home/user/public_html/browsermid/cgi-bin
 mkdir /home/user/public_html/browsermid/midis
 ``` 
 
-* Change permissions for Apache user (ie www-data):
-
-``` 
-cd /home/user/public_html/browsermid
-sudo chown www-data cgi-bin/*
-sudo chown www-data midis/*
-sudo chmod -R 755 *
-sudo chmod +x cgi-bin/*
-``` 
-
 * Create VirtualHost configs, enable CGI
 
 ```
@@ -70,6 +60,16 @@ cp -r * /home/user/public_html/browsermid/
 ```
 cd /home/user/midi
 cp coolmusic.mid /home/user/public_html/browsermid/midis/
+```
+
+* Change permissions for Apache user (ie www-data):
+
+```
+cd /home/user/public_html/browsermid
+sudo chown www-data cgi-bin/*
+sudo chown www-data midis/*
+sudo chmod -R 755 *
+sudo chmod +x cgi-bin/*
 ```
 
 * Go to coolserver.com/browsermid
